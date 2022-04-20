@@ -16,16 +16,19 @@ class frontendProduct {
                     `;
                 }
                 if (value.text) {
-                    reviewTextHtml = `<p class="fs-normal mb-0">${value.text}</p>`;
+                    reviewTextHtml = `<p class="fs-normal mb-0 mt-2">${value.text}</p>`;
+                }
+                if (value.is_computed) {
+                    reviewTextHtml = `<p class="text-muted fs-sm mb-0 mt-2"><em>Otomatis oleh sistem</em></p>`;
                 }
                 reviewScopeHtml = `
                     ${reviewScopeHtml}
                     <div class="d-flex flex-column mb-3">
-                        <div class="d-flex mb-3">
+                        <div class="d-flex">
                             <img class="img-avatar border" style="width: 35px; height: 35px" src="${memberProfileImage}">
                             <div class="d-flex flex-column ms-3">
                                 <span class="fs-sm fw-semibold m-0">${value.member_name}</span>
-                                <div class="d-flex align-items-center mb-2">
+                                <div class="d-flex align-items-center">
                                     <div class="fs-xs align-self-center me-2">
                                         ${rateStarHtml}
                                     </div>
