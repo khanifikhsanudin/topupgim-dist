@@ -54,6 +54,8 @@ class frontendProduct {
             .then((res) => res.json())
             .then((response) => {
                 const amount = parseInt(response.paging?.amount ?? 0);
+                const nextPage = parseInt(response.paging?.next_page) || null;
+                const prevPage = parseInt(response.paging?.prev_page) || null;
                 if (amount > 0) {
                     const scoreAverage = parseFloat(response.scores?.score_average).toFixed(1);
                     const averageOne = (parseFloat(response.scores?.score_one) / amount) * 100;
@@ -97,17 +99,17 @@ class frontendProduct {
                         });
                     });
                     this.renderReviews(response.data);
-                    if (response.paging.next_page) {
-                        $("#review-nav-next").on("click", () => {
-                            this.loadReviews(parseInt(response.paging.next_page));
-                        });
+                    if (nextPage) {
                         $("#review-nav-next").removeClass("d-none");
-                    }
-                    if (response.paging.prev_page) {
-                        $("#review-nav-prev").on("click", () => {
-                            this.loadReviews(parseInt(response.paging.prev_page));
+                        $("#review-nav-next").on("click", () => {
+                            this.loadReviews(nextPage);
                         });
+                    }
+                    if (prevPage) {
                         $("#review-nav-prev").removeClass("d-none");
+                        $("#review-nav-prev").on("click", () => {
+                            this.loadReviews(prevPage);
+                        });
                     }
                     $("#review-scope").removeClass("d-none");
                 } else {
