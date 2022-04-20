@@ -98,16 +98,16 @@ class frontendProduct {
                     });
                     this.renderReviews(response.data);
                     if (response.paging.next_page) {
-                        $("review-nav-next").on("click", () => {
+                        $("#review-nav-next").on("click", () => {
                             this.loadReviews(parseInt(response.paging.next_page));
                         });
-                        $("review-nav-next").removeClass("d-none");
+                        $("#review-nav-next").removeClass("d-none");
                     }
                     if (response.paging.prev_page) {
-                        $("review-nav-prev").on("click", () => {
+                        $("#review-nav-prev").on("click", () => {
                             this.loadReviews(parseInt(response.paging.prev_page));
                         });
-                        $("review-nav-prev").removeClass("d-none");
+                        $("#review-nav-prev").removeClass("d-none");
                     }
                     $("#review-scope").removeClass("d-none");
                 } else {
