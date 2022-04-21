@@ -18,9 +18,6 @@ class frontendProduct {
                 if (value.text) {
                     reviewTextHtml = `<p class="fs-normal mb-0 mt-2">${value.text}</p>`;
                 }
-                if (value.is_computed) {
-                    reviewTextHtml = `<p class="text-muted fs-sm mb-0 mt-2"><em>Otomatis oleh sistem</em></p>`;
-                }
                 reviewScopeHtml = `
                     ${reviewScopeHtml}
                     <div class="d-flex flex-column mb-3">
