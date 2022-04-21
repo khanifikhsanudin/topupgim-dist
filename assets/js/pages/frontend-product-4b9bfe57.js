@@ -94,7 +94,6 @@ class frontendProduct {
                             $("#rateScore").val(score);
                         }
                     });
-                    el.raty("reload");
                     this.renderReviews(response.data);
                     $("#review-nav-next").removeClass("d-none");
                     $("#review-nav-prev").removeClass("d-none");
