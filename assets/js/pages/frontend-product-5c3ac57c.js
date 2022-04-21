@@ -72,41 +72,45 @@ class frontendProduct {
                     $("#review-score-progress-three").css("width", `${averageThree}%`);
                     $("#review-score-progress-two").css("width", `${averageTwo}%`);
                     $("#review-score-progress-one").css("width", `${averageOne}%`);
-                    $("#review-score-star").each((_index, element) => {
-                        let el = $(element);
-                        el.raty({
-                            score: scoreAverage,
-                            number: el.data("number") || 5,
-                            cancel: el.data("cancel") || false,
-                            target: el.data("target") || false,
-                            targetScore: el.data("target-score") || false,
-                            precision: el.data("precision") || false,
-                            cancelOff: el.data("cancel-off") || "fa fa-fw fa-times-circle text-danger",
-                            cancelOn: el.data("cancel-on") || "fa fa-fw fa-times-circle",
-                            starHalf: el.data("star-half") || "fa fa-fw fa-star-half-alt text-warning",
-                            starOff: el.data("star-off") || "far fa-fw fa-star text-muted",
-                            starOn: el.data("star-on") || "fa fa-fw fa-star text-warning",
-                            starType: "i",
-                            hints: ["Sangat Buruk", "Buruk", "Cukup", "Baik", "Sangat Baik"],
-                            readOnly: el.data("readonly") || false,
-                            space: true,
-                            click: function (score, _evt) {
-                                $("#rateScore").val(score);
-                            }
-                        });
+                    const el = $("#review-score-star");
+                    el.raty({
+                        score: scoreAverage,
+                        number: el.data("number") || 5,
+                        cancel: el.data("cancel") || false,
+                        target: el.data("target") || false,
+                        targetScore: el.data("target-score") || false,
+                        precision: el.data("precision") || false,
+                        cancelOff: el.data("cancel-off") || "fa fa-fw fa-times-circle text-danger",
+                        cancelOn: el.data("cancel-on") || "fa fa-fw fa-times-circle",
+                        starHalf: el.data("star-half") || "fa fa-fw fa-star-half-alt text-warning",
+                        starOff: el.data("star-off") || "far fa-fw fa-star text-muted",
+                        starOn: el.data("star-on") || "fa fa-fw fa-star text-warning",
+                        starType: "i",
+                        hints: ["Sangat Buruk", "Buruk", "Cukup", "Baik", "Sangat Baik"],
+                        readOnly: el.data("readonly") || false,
+                        space: true,
+                        click: function (score, _evt) {
+                            $("#rateScore").val(score);
+                        }
                     });
                     this.renderReviews(response.data);
+                    $("#review-nav-next").removeClass("d-none");
+                    $("#review-nav-prev").removeClass("d-none");
                     if (nextPage) {
-                        $("#review-nav-next").removeClass("d-none");
+                        $("#review-nav-next").prop("disabled", false);
                         $("#review-nav-next").on("click", () => {
                             this.loadReviews(nextPage);
                         });
+                    } else {
+                        $("#review-nav-next").prop("disabled", true);
                     }
                     if (prevPage) {
-                        $("#review-nav-prev").removeClass("d-none");
+                        $("#review-nav-prev").prop("disabled", false);
                         $("#review-nav-prev").on("click", () => {
                             this.loadReviews(prevPage);
                         });
+                    } else {
+                        $("#review-nav-prev").prop("disabled", true);
                     }
                     $("#review-scope").removeClass("d-none");
                 } else {
