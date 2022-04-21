@@ -73,6 +73,7 @@ class frontendProduct {
                     $("#review-score-progress-two").css("width", `${averageTwo}%`);
                     $("#review-score-progress-one").css("width", `${averageOne}%`);
                     const el = $("#review-score-star");
+                    el.empty();
                     el.raty({
                         score: scoreAverage,
                         number: el.data("number") || 5,
@@ -93,6 +94,7 @@ class frontendProduct {
                             $("#rateScore").val(score);
                         }
                     });
+                    el.raty("reload");
                     this.renderReviews(response.data);
                     $("#review-nav-next").removeClass("d-none");
                     $("#review-nav-prev").removeClass("d-none");
