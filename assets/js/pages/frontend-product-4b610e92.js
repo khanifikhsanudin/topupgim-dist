@@ -47,12 +47,15 @@ class frontendProduct {
         $("#review-scope").addClass("d-none");
         $("#review-scope-empty").addClass("d-none");
         $("#review-scope-loading").removeClass("d-none");
+        window.isReviewLoading = true;
         fetch(`${location.origin}/review/api-review-list?product_code=${productCode}&page=${page}`)
             .then((res) => res.json())
             .then((response) => {
                 const amount = parseInt(response.paging?.amount ?? 0);
                 const nextPage = parseInt(response.paging?.next_page) || null;
                 const prevPage = parseInt(response.paging?.prev_page) || null;
+                window.reviewNextPage = nextPage;
+                window.reviewPrevPage = nextPage;
                 if (amount > 0) {
                     const scoreAverage = parseFloat(response.scores?.score_average).toFixed(1);
                     const averageOne = (parseFloat(response.scores?.score_one) / amount) * 100;
@@ -97,24 +100,12 @@ class frontendProduct {
                     this.renderReviews(response.data);
                     $("#review-nav-next").removeClass("d-none");
                     $("#review-nav-prev").removeClass("d-none");
-                    if (nextPage) {
-                        $("#review-nav-next").prop("disabled", false);
-                        $("#review-nav-next").on("click", () => {
-                            this.loadReviews(nextPage);
-                        });
-                    } else {
-                        $("#review-nav-next").prop("disabled", true);
-                    }
-                    if (prevPage) {
-                        $("#review-nav-prev").prop("disabled", false);
-                        $("#review-nav-prev").on("click", () => {
-                            this.loadReviews(prevPage);
-                        });
-                    } else {
-                        $("#review-nav-prev").prop("disabled", true);
-                    }
+                    $("#review-nav-next").prop("disabled", nextPage ? false : true);
+                    $("#review-nav-prev").prop("disabled", prevPage ? false : true);
                     $("#review-scope").removeClass("d-none");
                 } else {
+                    $("#review-nav-next").addClass("d-none");
+                    $("#review-nav-prev").addClass("d-none");
                     $("#review-scope-empty").removeClass("d-none");
                 }
             })
@@ -123,6 +114,7 @@ class frontendProduct {
             })
             .finally(() => {
                 $("#review-scope-loading").addClass("d-none");
+                window.isReviewLoading = false;
             });
     }
 
@@ -163,6 +155,14 @@ class frontendProduct {
         });
         window.addEventListener("beforeunload", function (e) {
             window.isLeavingPage = "yes";
+        });
+
+        $("#review-nav-next").on("click", () => {
+            if (!window.isReviewLoading) this.loadReviews(window.reviewNextPage);
+        });
+
+        $("#review-nav-prev").on("click", () => {
+            if (!window.isReviewLoading) this.loadReviews(window.reviewPrevPage);
         });
     }
 }
