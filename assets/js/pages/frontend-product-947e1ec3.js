@@ -44,9 +44,14 @@ class frontendProduct {
 
     static loadReviews(page = 1) {
         const productCode = $('meta[name="product-code"]').attr("content");
-        $("#review-scope").addClass("d-none");
-        $("#review-scope-empty").addClass("d-none");
-        $("#review-scope-loading").removeClass("d-none");
+        if (window.reviewAmount > 0) {
+            $("#review-scope-frame-list").css("visibility", "hidden");
+            $("#review-scope-list-loading").removeClass("d-none");
+        } else {
+            $("#review-scope").addClass("d-none");
+            $("#review-scope-empty").addClass("d-none");
+            $("#review-scope-loading").removeClass("d-none");
+        }
         window.isReviewLoading = true;
         fetch(`${location.origin}/review/api-review-list?product_code=${productCode}&page=${page}`)
             .then((res) => res.json())
@@ -54,8 +59,9 @@ class frontendProduct {
                 const amount = parseInt(response.paging?.amount ?? 0);
                 const nextPage = parseInt(response.paging?.next_page) || null;
                 const prevPage = parseInt(response.paging?.prev_page) || null;
+                window.reviewAmount = amount;
                 window.reviewNextPage = nextPage;
-                window.reviewPrevPage = nextPage;
+                window.reviewPrevPage = prevPage;
                 if (amount > 0) {
                     const scoreAverage = parseFloat(response.scores?.score_average).toFixed(1);
                     const averageOne = (parseFloat(response.scores?.score_one) / amount) * 100;
@@ -113,6 +119,10 @@ class frontendProduct {
                 $("#review-scope-empty").removeClass("d-none");
             })
             .finally(() => {
+                if (window.reviewAmount > 0) {
+                    $("#review-scope-frame-list").css("visibility", "visible");
+                    $("#review-scope-list-loading").addClass("d-none");
+                }
                 $("#review-scope-loading").addClass("d-none");
                 window.isReviewLoading = false;
             });
