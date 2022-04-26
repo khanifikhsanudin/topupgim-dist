@@ -73,16 +73,16 @@ class frontendPurchaseOrderStatus {
                 var seconds = Math.floor((distance % (1000 * 60)) / 1000);
                 var countDownText = "";
                 if (seconds > 0) {
-                    countDownText = `${seconds} detik`;
+                    countDownText = `${seconds}d`;
                 }
                 if (minutes > 0) {
-                    countDownText = `${minutes} menit ${seconds} detik`;
+                    countDownText = `${minutes}m ${seconds}d`;
                 }
                 if (hours > 0) {
-                    countDownText = `${hours} jam ${minutes} menit ${seconds} detik`;
+                    countDownText = `${hours}j ${minutes}m ${seconds}d`;
                 }
                 if (days > 0) {
-                    countDownText = `${days} hari ${hours} jam ${minutes} menit ${seconds} detik`;
+                    countDownText = `${days}h ${hours}j ${minutes}m ${seconds}d`;
                 }
                 if (countDownText && distance > 0) {
                     $("#timer-expired-payment")?.text(countDownText);
