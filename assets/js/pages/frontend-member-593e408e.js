@@ -25,7 +25,6 @@ class managerPurchaseList {
         Topupgim.helpers("js-datatables", {
             processing: true,
             serverSide: true,
-            autoWidth: false,
             ajax: "member/api-purchase-list",
             order: [[1, "desc"]],
             createdRow: function (row, data, dataIndex) {
@@ -50,8 +49,8 @@ class managerPurchaseList {
                         const priceText = Topupgim.numberToIDR(row.price_idr);
                         let html = `
                             <div class="d-flex align-items-center">
-                                <img class="img-sq-sm fit-cover img-round-pop me-3" src="${tileImage}">
-                                <div class="d-flex flex-column">
+                                <img class="img-sq-sm fit-cover img-round-pop me-2" src="${tileImage}">
+                                <div class="d-flex flex-column ms-1" style="max-width:150px;">
                                     <p class="fs-sm mb-0 text-truncate">${row.denomination_name}</p>
                                     <p class="fs-sm fw-semibold text-primary mb-0">${priceText}</p>
                                 </div>
@@ -119,6 +118,7 @@ class managerPurchaseList {
             }, 400);
         }
         $('button[data-bs-toggle="tab"]').on("shown.bs.tab", function (event) {
+            $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
             if (history.pushState) {
                 history.pushState(null, null, event.target.dataset.bsTarget);
             } else {
