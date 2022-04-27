@@ -6,11 +6,24 @@ class frontendPurchaseOrderStatus {
         if (!["completed", "canceled", "payment_expired"].includes(purchaseStatus)) {
             const socket = io();
             const orderId = $('meta[name="order-id"]').attr("content");
+            const invoiceId = $('meta[name="invoice-id"]').attr("content");
+            const paymentMethod = $('meta[name="payment-method"]').attr("content");
             socket.on(`event-purchase-update-${orderId}`, (status) => {
                 if (status !== purchaseStatus) {
                     window.location.reload(true);
                 }
             });
+            if (paymentMethod === "VIRTUAL_ACCOUNT") {
+                socket.on(`event-va-update-${invoiceId}`, (status) => {
+                    if (status === "ACTIVE") {
+                        Topupgim.helpers("jq-notify", { type: "success", message: "Virtual Account Aktif" });
+                    } else if (status === "PENDING") {
+                        Topupgim.helpers("jq-notify", { type: "warning", message: "Virtual Account Pending" });
+                    } else if (status === "INACTIVE") {
+                        Topupgim.helpers("jq-notify", { type: "danger", message: "Virtual Account Tidak Aktif" });
+                    }
+                });
+            }
         }
     }
 
@@ -110,6 +123,26 @@ class frontendPurchaseOrderStatus {
 
         $("#purchaseRefresh")?.on("click", () => {
             window.location.reload(true);
+        });
+
+        $(".btn-copy").on("click", () => {
+            const textCopy = $(".btn-copy").attr("data-copy");
+            if (!navigator.clipboard) {
+                var input = document.createElement("textarea");
+                input.value = textCopy;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand("Copy");
+                input.remove();
+                Topupgim.helpers("jq-notify", { type: "info", message: "Disalin!" });
+            } else {
+                navigator.clipboard
+                    .writeText(textCopy)
+                    .then(function () {
+                        Topupgim.helpers("jq-notify", { type: "info", message: "Disalin!" });
+                    })
+                    .catch(function () {});
+            }
         });
     }
 }
