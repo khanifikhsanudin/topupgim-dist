@@ -167,6 +167,18 @@ class frontendProduct {
             window.isLeavingPage = "yes";
         });
 
+        const textH = parseFloat($(".read-more-target").height()).toFixed(1);
+        let textMhPx = $(".read-more-target").css("max-height");
+        textMhPx = parseFloat(textMhPx.replace("px", "")).toFixed(1);
+        if (textH < textMhPx) {
+            $(".read-more-trigger").addClass("d-none");
+        } else {
+            $(".read-more-trigger").removeClass("d-none");
+        }
+
+        console.log(textH);
+        console.log(textMhPx);
+
         $("#review-nav-next").on("click", () => {
             if (!window.isReviewLoading) this.loadReviews(window.reviewNextPage);
         });
