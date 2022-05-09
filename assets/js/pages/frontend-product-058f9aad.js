@@ -150,6 +150,17 @@ class frontendProduct {
         });
     }
 
+    static initReadMore() {
+        var parents = document.querySelectorAll(".read-more-target");
+        parents.forEach((parent) => {
+            if (parent.scrollHeight > parent.clientHeight || parent.scrollWidth > parent.clientWidth) {
+                $(".read-more-trigger").removeClass("d-none");
+            } else {
+                $(".read-more-trigger").addClass("d-none");
+            }
+        });
+    }
+
     static async init() {
         this.initValidation();
         this.loadReviews();
@@ -167,17 +178,13 @@ class frontendProduct {
             window.isLeavingPage = "yes";
         });
 
-        const textH = parseFloat($(".read-more-target").height()).toFixed(1);
-        let textMhPx = $(".read-more-target").css("max-height");
-        textMhPx = parseFloat(textMhPx.replace("px", "")).toFixed(1);
-        if (textH < textMhPx) {
-            $(".read-more-trigger").addClass("d-none");
-        } else {
-            $(".read-more-trigger").removeClass("d-none");
-        }
-
-        console.log(textH);
-        console.log(textMhPx);
+        frontendProduct.initReadMore();
+        $(window).on("resize", function () {
+            clearTimeout(window.resizedFinished);
+            window.resizedFinished = setTimeout(function () {
+                frontendProduct.initReadMore();
+            }, 250);
+        });
 
         $("#review-nav-next").on("click", () => {
             if (!window.isReviewLoading) this.loadReviews(window.reviewNextPage);
