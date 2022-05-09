@@ -180,12 +180,15 @@ class frontendProduct {
             window.isLeavingPage = "yes";
         });
 
+        window.lastWidth = $(window).width();
         frontendProduct.initReadMore();
         $(window).on("resize", function () {
             clearTimeout(window.resizedFinished);
-            window.resizedFinished = setTimeout(function () {
-                frontendProduct.initReadMore();
-            }, 250);
+            if (parseInt(window.lastWidth) !== parseInt($(this).width())) {
+                window.resizedFinished = setTimeout(function () {
+                    frontendProduct.initReadMore();
+                }, 250);
+            }
         });
 
         $("#review-nav-next").on("click", () => {
