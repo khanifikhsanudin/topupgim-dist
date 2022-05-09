@@ -155,8 +155,10 @@ class frontendProduct {
         parents.forEach((parent) => {
             if (parent.scrollHeight > parent.clientHeight || parent.scrollWidth > parent.clientWidth) {
                 $(".read-more-trigger").removeClass("d-none");
+                $(".read-more-wrap").addClass("fade-bottom");
             } else {
                 $(".read-more-trigger").addClass("d-none");
+                $(".read-more-wrap").removeClass("fade-bottom");
             }
         });
     }
