@@ -150,19 +150,6 @@ class frontendProduct {
         });
     }
 
-    static initReadMore() {
-        var parents = document.querySelectorAll(".read-more-target");
-        parents.forEach((parent) => {
-            if (parent.scrollHeight > parent.clientHeight || parent.scrollWidth > parent.clientWidth) {
-                $(".read-more-trigger").removeClass("d-none");
-                $(".read-more-wrap").addClass("fade-bottom");
-            } else {
-                $(".read-more-trigger").addClass("d-none");
-                $(".read-more-wrap").removeClass("fade-bottom");
-            }
-        });
-    }
-
     static async init() {
         this.initValidation();
         this.loadReviews();
@@ -178,17 +165,6 @@ class frontendProduct {
         });
         window.addEventListener("beforeunload", function (e) {
             window.isLeavingPage = "yes";
-        });
-
-        window.lastWidth = $(window).width();
-        frontendProduct.initReadMore();
-        $(window).on("resize", function () {
-            clearTimeout(window.resizedFinished);
-            if (parseInt(window.lastWidth) !== parseInt($(this).width())) {
-                window.resizedFinished = setTimeout(function () {
-                    frontendProduct.initReadMore();
-                }, 250);
-            }
         });
 
         $("#review-nav-next").on("click", () => {
