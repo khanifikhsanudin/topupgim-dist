@@ -174,6 +174,31 @@ class frontendProduct {
         $("#review-nav-prev").on("click", () => {
             if (!window.isReviewLoading) this.loadReviews(window.reviewPrevPage);
         });
+
+        //refresh column adjust
+        const observer = new MutationObserver((mutationList, _observer) => {
+            mutationList.forEach(function (mutation) {
+                if (mutation.type === "attributes" && mutation.attributeName === "class") {
+                    const deviceWith = $(window).width();
+                    if (deviceWith <= 768) {
+                        if ($("#parent-content-review-mobile").find("#content-review").length === 0) {
+                            $("#content-review").prependTo($("#parent-content-review-mobile"));
+                        }
+                        if ($("#parent-content-ranking-mobile").find("#content-ranking").length === 0) {
+                            $("#content-ranking").prependTo($("#parent-content-ranking-mobile"));
+                        }
+                    } else {
+                        if ($("#parent-content-review").find("#content-review").length === 0) {
+                            $("#content-review").prependTo($("#parent-content-review"));
+                        }
+                        if ($("#parent-content-ranking").find("#content-ranking").length === 0) {
+                            $("#content-ranking").prependTo($("#parent-content-ranking"));
+                        }
+                    }
+                }
+            });
+        });
+        observer.observe(document.querySelector("#page-container"), { attributes: true });
     }
 }
 
