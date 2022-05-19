@@ -150,7 +150,31 @@ class frontendProduct {
         });
     }
 
+    static responsive() {
+        const deviceWith = $(window).width();
+        if (deviceWith <= 768) {
+            if ($("#parent-content-review-mobile").find("#content-review").length === 0) {
+                $("#content-review").prependTo($("#parent-content-review-mobile"));
+            }
+            $("#parent-content-review-mobile").removeClass("d-none");
+            if ($("#parent-content-ranking-mobile").find("#content-ranking").length === 0) {
+                $("#content-ranking").prependTo($("#parent-content-ranking-mobile"));
+            }
+            $("#parent-content-ranking-mobile").removeClass("d-none");
+        } else {
+            if ($("#parent-content-review").find("#content-review").length === 0) {
+                $("#content-review").prependTo($("#parent-content-review"));
+            }
+            $("#parent-content-review").removeClass("d-none");
+            if ($("#parent-content-ranking").find("#content-ranking").length === 0) {
+                $("#content-ranking").prependTo($("#parent-content-ranking"));
+            }
+            $("#parent-content-ranking").removeClass("d-none");
+        }
+    }
+
     static async init() {
+        this.responsive();
         this.initValidation();
         this.loadReviews();
         Topupgim.helpers("input-text-phone");
@@ -179,22 +203,7 @@ class frontendProduct {
         const observer = new MutationObserver((mutationList, _observer) => {
             mutationList.forEach(function (mutation) {
                 if (mutation.type === "attributes" && mutation.attributeName === "class") {
-                    const deviceWith = $(window).width();
-                    if (deviceWith <= 768) {
-                        if ($("#parent-content-review-mobile").find("#content-review").length === 0) {
-                            $("#content-review").prependTo($("#parent-content-review-mobile"));
-                        }
-                        if ($("#parent-content-ranking-mobile").find("#content-ranking").length === 0) {
-                            $("#content-ranking").prependTo($("#parent-content-ranking-mobile"));
-                        }
-                    } else {
-                        if ($("#parent-content-review").find("#content-review").length === 0) {
-                            $("#content-review").prependTo($("#parent-content-review"));
-                        }
-                        if ($("#parent-content-ranking").find("#content-ranking").length === 0) {
-                            $("#content-ranking").prependTo($("#parent-content-ranking"));
-                        }
-                    }
+                    frontendProduct.responsive();
                 }
             });
         });
