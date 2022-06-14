@@ -26,12 +26,12 @@ class frontendProduct {
                             <div class="d-flex flex-column ms-3">
                                 <span class="fs-sm fw-semibold m-0">${value.member_name}</span>
                                 <div class="d-flex align-items-center">
-                                    <div class="fs-xs align-self-center me-2">
+                                    <div class="fs-xs align-self-center me-1">
                                         ${rateStarHtml}
                                     </div>
-                                    <span class="text-muted fs-xs">(${value.denomination_name})</span>
-                                    <span class="text-muted fs-xs ms-1">${value.time_ago}</span>
+                                    <p class="text-muted mb-0 fs-xs"> &bull; ${value.time_ago}</p>
                                 </div>
+                                <span class="text-muted fs-sm fw-light">${value.denomination_name}</span>
                                 ${reviewTextHtml}
                             </div>
                         </div>
