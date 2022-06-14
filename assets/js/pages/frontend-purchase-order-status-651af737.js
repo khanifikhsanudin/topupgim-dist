@@ -125,24 +125,26 @@ class frontendPurchaseOrderStatus {
             window.location.reload(true);
         });
 
-        $(".btn-copy").on("click", () => {
-            const textCopy = $(".btn-copy").attr("data-copy");
-            if (!navigator.clipboard) {
-                var input = document.createElement("textarea");
-                input.value = textCopy;
-                document.body.appendChild(input);
-                input.select();
-                document.execCommand("Copy");
-                input.remove();
-                Topupgim.helpers("jq-notify", { type: "info", message: "Disalin!" });
-            } else {
-                navigator.clipboard
-                    .writeText(textCopy)
-                    .then(function () {
-                        Topupgim.helpers("jq-notify", { type: "info", message: "Disalin!" });
-                    })
-                    .catch(function () {});
-            }
+        $.each($(".btn-copy"), function (_index, item) {
+            $(item).on("click", () => {
+                const textCopy = $(item).attr("data-copy");
+                if (!navigator.clipboard) {
+                    var input = document.createElement("textarea");
+                    input.value = textCopy;
+                    document.body.appendChild(input);
+                    input.select();
+                    document.execCommand("Copy");
+                    input.remove();
+                    Topupgim.helpers("jq-notify", { type: "info", message: "Disalin!" });
+                } else {
+                    navigator.clipboard
+                        .writeText(textCopy)
+                        .then(function () {
+                            Topupgim.helpers("jq-notify", { type: "info", message: "Disalin!" });
+                        })
+                        .catch(function () {});
+                }
+            });
         });
     }
 }
