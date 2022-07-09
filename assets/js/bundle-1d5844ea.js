@@ -2,7 +2,7 @@
                             <span class="text-currency d-block fw-semibold me-2 me-md-4">
                                 ${o}
                             </span>
-                        `;e&&r<n&&(e=N(n),n=(100-r/n*100).toFixed(0),i=`
+                        `;e&&r<n&&(e=N(n),n=Math.ceil(100-r/n*100),i=`
                                 <div class="d-flex flex-column align-items-end me-2 me-md-4">
                                     <div class="d-flex">
                                         <span class="d-md-flex d-none align-items-center bg-currency my-auto" style="border-radius: 0.2rem;">
