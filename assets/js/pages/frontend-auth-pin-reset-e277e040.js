@@ -32,8 +32,8 @@ class frontendAuthPINReset {
     static async init() {
         this.initValidation();
         Topupgim.helpers("fresh-page");
-        $("#accountNewPIN")?.pincodeInput({ inputs: 6, hidedigits: false });
-        $("#accountConfirmPIN")?.pincodeInput({ inputs: 6, hidedigits: true });
+        Topupgim.helpers("input-text-phone", { selector: "#accountNewPIN", maxLength: 6 });
+        Topupgim.helpers("input-text-phone", { selector: "#accountConfirmPIN", maxLength: 6 });
     }
 }
 

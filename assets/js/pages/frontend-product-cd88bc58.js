@@ -178,7 +178,7 @@ class frontendProduct {
         this.initValidation();
         this.loadReviews();
         Topupgim.helpers("input-text-phone");
-        $("#resellerPIN")?.pincodeInput({ inputs: 6, hidedigits: false });
+        Topupgim.helpers("input-text-phone", { selector: "#resellerPIN", maxLength: 6 });
         window.addEventListener("pageshow", function (_event) {
             $(".product-block").removeClass("block-mode-loading");
             Topupgim.loader("hide");
