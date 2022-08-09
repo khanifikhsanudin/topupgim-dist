@@ -79,7 +79,7 @@ class resellerPricingList {
                     render: function (data, type, row, meta) {
                         const productTileImage = Topupgim.safeImage(row.product_tile_image);
                         let html = `
-                            <div style="min-width:110px;">
+                            <div style="min-width:200px;">
                                 <img class="img-sm img-round-pop me-3 float-start" src="${productTileImage}">
                                 <p class="fs-sm mb-0 text-truncate">${row.product_title}</p>
                                 <p class="fs-sm text-primary mb-0 text-truncate">${row.denomination_name}</p>
@@ -96,14 +96,14 @@ class resellerPricingList {
                         let html = "";
                         if (row.price_idr_crossed_out) {
                             html = `
-                                <div style="min-width:110px;">
+                                <div style="min-width:120px;">
                                     <p class="fs-sm fw-semibold mb-0">${price}</p>
                                     <p class="text-muted fs-sm mb-0 "><del>${crossedOut}<del/></p>
                                 </div>
                             `;
                         } else {
                             html = `
-                                <div>
+                                <div style="min-width:120px;">
                                     <p class="fs-sm fw-semibold mb-0">${price}</p>
                                 </div>
                             `;
@@ -127,7 +127,7 @@ class resellerPricingList {
                         `;
                         } else {
                             html = `
-                            <div style="min-width:100px;">
+                            <div style="min-width:120px;">
                                 <p class="fs-sm fw-semibold mb-0">${priceReseller}</p>
                             </div>
                         `;
