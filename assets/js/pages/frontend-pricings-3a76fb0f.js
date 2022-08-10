@@ -56,13 +56,21 @@ function confirmSelectedProduct(code) {
 
 class resellerPricingList {
     static init() {
+        selectedProductCode = $("#hiddenDefaultProductCode").val();
+        refreshSelectedProduct();
+        let ajaxUrl = `${window.location.origin}/member/reseller/api-pricing-list`;
+        if (selectedProductCode) {
+            ajaxUrl = `${ajaxUrl}?product_code=${selectedProductCode}`;
+        }
+
         Topupgim.helpers("js-datatables-init");
         Topupgim.helpers("bs-tooltip");
         Topupgim.helpers("js-datatables", {
             processing: true,
             serverSide: true,
-            ajax: `${window.location.origin}/member/reseller/api-pricing-list`,
+            ajax: ajaxUrl,
             order: [[1, "desc"]],
+            pageLength: 10,
             columns: [
                 {
                     render: function (data, type, row, meta) {
