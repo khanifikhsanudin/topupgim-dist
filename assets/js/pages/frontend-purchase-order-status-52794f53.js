@@ -107,7 +107,29 @@ class frontendPurchaseOrderStatus {
         }
     }
 
+    static initGAds() {
+        const orderId = $('meta[name="order-id"]').attr("content");
+        const purchaseStatus = $('meta[name="purchase-status"]').attr("content");
+        const priceIdrAmount = $('meta[name="price-idr-amount"]').attr("content");
+
+        if (orderId && purchaseStatus === "ordered") {
+            gtag("event", "conversion", {
+                send_to: "AW-10897083214/UBrwCNrx7tcDEM6Wkcwo",
+                value: parseInt(priceIdrAmount),
+                currency: "IDR"
+            });
+        } else if (orderId && purchaseStatus === "completed") {
+            gtag("event", "conversion", {
+                send_to: "AW-10897083214/eVdXCJe4uNcDEM6Wkcwo",
+                value: parseInt(priceIdrAmount),
+                currency: "IDR",
+                transaction_id: orderId
+            });
+        }
+    }
+
     static async init() {
+        this.initGAds();
         this.initIO();
         this.initValidation();
         this.initRating();
