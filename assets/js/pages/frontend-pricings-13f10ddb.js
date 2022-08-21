@@ -69,18 +69,12 @@ class resellerPricingList {
             processing: true,
             serverSide: true,
             ajax: ajaxUrl,
-            order: [[2, "asc"]],
+            order: [[1, "asc"]],
             pageLength: 10,
             columns: [
                 {
                     render: function (data, type, row, meta) {
                         return meta.row + 1 + meta.settings._iDisplayStart;
-                    }
-                },
-                {
-                    data: "price_updated_at",
-                    render: function (data, type, row, meta) {
-                        return `<span class="fs-sm">${row.date_human}</span><br/><span class="text-muted fs-sm">${row.time_human}</span>`;
                     }
                 },
                 {
@@ -160,7 +154,7 @@ class resellerPricingList {
             ],
             columnDefs: [
                 {
-                    targets: [0, 5],
+                    targets: [0, 4],
                     orderable: false,
                     searchable: false
                 },
