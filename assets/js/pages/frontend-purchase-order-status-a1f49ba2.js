@@ -114,9 +114,10 @@ class frontendPurchaseOrderStatus {
 
         if (orderId && purchaseStatus === "ordered") {
             gtag("event", "conversion", {
-                send_to: "AW-10897083214/UBrwCNrx7tcDEM6Wkcwo",
+                send_to: "AW-10897083214/ysnICJq4uNcDEM6Wkcwo",
                 value: parseInt(priceIdrAmount),
-                currency: "IDR"
+                currency: "IDR",
+                transaction_id: orderId
             });
         } else if (orderId && purchaseStatus === "completed") {
             gtag("event", "conversion", {
