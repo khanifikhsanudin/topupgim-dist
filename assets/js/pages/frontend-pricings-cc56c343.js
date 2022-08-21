@@ -69,7 +69,7 @@ class resellerPricingList {
             processing: true,
             serverSide: true,
             ajax: ajaxUrl,
-            order: [[2, "desc"]],
+            order: [[2, "asc"]],
             pageLength: 10,
             columns: [
                 {
