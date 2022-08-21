@@ -69,7 +69,7 @@ class resellerPricingList {
             processing: true,
             serverSide: true,
             ajax: ajaxUrl,
-            order: [[1, "desc"]],
+            order: [[2, "desc"]],
             pageLength: 10,
             columns: [
                 {
@@ -78,12 +78,13 @@ class resellerPricingList {
                     }
                 },
                 {
-                    data: ["price_updated_at", "price_updated_at_reseller"],
+                    data: "price_updated_at",
                     render: function (data, type, row, meta) {
                         return `<span class="fs-sm">${row.date_human}</span><br/><span class="text-muted fs-sm">${row.time_human}</span>`;
                     }
                 },
                 {
+                    data: "denomination_name",
                     render: function (data, type, row, meta) {
                         const productTileImage = Topupgim.safeImage(row.product_tile_image);
                         let html = `
@@ -159,7 +160,7 @@ class resellerPricingList {
             ],
             columnDefs: [
                 {
-                    targets: [0, 2, 5],
+                    targets: [0, 5],
                     orderable: false,
                     searchable: false
                 },
