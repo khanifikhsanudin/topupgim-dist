@@ -121,8 +121,7 @@ const purchaseHistoryView = (purchaseList) => {
 class frontendPurchaseOrderHistory {
     static async init() {
         $(document)
-            .on("click", ".container-action", function (e) {
-                if (e.target !== e.currentTarget) return;
+            .on("click", ".container-action", function () {
                 const orderId = $(this).data("order-id");
                 const statusLink = `${location.origin}/purchase/order-status/${orderId}`;
                 location.href = statusLink;
