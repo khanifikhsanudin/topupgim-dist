@@ -150,35 +150,49 @@ class frontendProduct {
         });
     }
 
-    static responsive() {
+    static responsive(isReviewShown, isRankingShown) {
         const deviceWith = $(window).width();
         if (deviceWith <= 768) {
             if ($("#parent-content-review-mobile").find("#content-review").length === 0) {
                 $("#content-review").prependTo($("#parent-content-review-mobile"));
             }
-            $("#parent-content-review-mobile").removeClass("d-none");
             if ($("#parent-content-ranking-mobile").find("#content-ranking").length === 0) {
                 $("#content-ranking").prependTo($("#parent-content-ranking-mobile"));
             }
-            $("#parent-content-ranking-mobile").removeClass("d-none");
+            if (isReviewShown) {
+                $("#parent-content-review-mobile").removeClass("d-none");
+            }
+            if (isRankingShown) {
+                $("#parent-content-ranking-mobile").removeClass("d-none");
+            }
         } else {
             if ($("#parent-content-review").find("#content-review").length === 0) {
                 $("#content-review").prependTo($("#parent-content-review"));
             }
-            $("#parent-content-review").removeClass("d-none");
             if ($("#parent-content-ranking").find("#content-ranking").length === 0) {
                 $("#content-ranking").prependTo($("#parent-content-ranking"));
             }
-            $("#parent-content-ranking").removeClass("d-none");
+            if (isReviewShown) {
+                $("#parent-content-review").removeClass("d-none");
+            }
+            if (isRankingShown) {
+                $("#parent-content-ranking").removeClass("d-none");
+            }
         }
     }
 
     static async init() {
-        this.responsive();
         this.initValidation();
-        this.loadReviews();
         Topupgim.helpers("input-text-phone");
         Topupgim.helpers("input-text-phone", { selector: "#resellerPIN", maxLength: 6 });
+
+        const isReviewShown = $("#parent-content-review-mobile").data("shown") ? true : false;
+        const isRankingShown = $("#parent-content-ranking-mobile").data("shown") ? true : false;
+        this.responsive(isReviewShown, isRankingShown);
+        if (isReviewShown) {
+            this.loadReviews();
+        }
+
         window.addEventListener("pageshow", function (_event) {
             $(".product-block").removeClass("block-mode-loading");
             Topupgim.loader("hide");
@@ -204,7 +218,7 @@ class frontendProduct {
         const observer = new MutationObserver((mutationList, _observer) => {
             mutationList.forEach(function (mutation) {
                 if (mutation.type === "attributes" && mutation.attributeName === "class") {
-                    frontendProduct.responsive();
+                    frontendProduct.responsive(isReviewShown, isRankingShown);
                 }
             });
         });
