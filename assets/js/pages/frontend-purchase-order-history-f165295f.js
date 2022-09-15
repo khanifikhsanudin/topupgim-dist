@@ -110,7 +110,7 @@ const purchaseHistoryView = (purchaseList) => {
             `;
         });
         return `
-            <h4>Menunggu Pembayaran</h4>
+            <h4>Belum Bayar</h4>
             ${purchaseView}
         `;
     } else {
