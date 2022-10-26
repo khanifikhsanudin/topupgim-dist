@@ -223,6 +223,10 @@ class frontendProduct {
             });
         });
         observer.observe(document.querySelector("#page-container"), { attributes: true });
+        const section = Topupgim.getQueryParam("section");
+        if (section) {
+            Topupgim.smoothScrollTo(`#${section}`);
+        }
     }
 }
 
