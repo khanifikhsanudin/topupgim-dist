@@ -151,8 +151,8 @@ class frontendProduct {
     }
 
     static responsive(isReviewShown, isRankingShown) {
-        const deviceWith = $(window).width();
-        if (deviceWith <= 768) {
+        const viewportWith = document.documentElement.clientWidth || window.innerWidth;
+        if (viewportWith <= 768) {
             if ($("#parent-content-review-mobile").find("#content-review").length === 0) {
                 $("#content-review").prependTo($("#parent-content-review-mobile"));
             }
