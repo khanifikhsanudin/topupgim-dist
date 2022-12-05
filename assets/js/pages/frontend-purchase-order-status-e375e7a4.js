@@ -138,9 +138,9 @@ class frontendPurchaseOrderStatus {
         Topupgim.helpers("fresh-page");
 
         $("#purchaseCheck")?.on("click", () => {
-            const orderId = $("#purchaseOrderId").val();
-            if (orderId) {
-                location.replace(`${location.origin}/purchase/order-status/${orderId}`);
+            const purchaseOrderId = $("#purchaseOrderId").val();
+            if (purchaseOrderId) {
+                location.replace(`${location.origin}/purchase/order-status/${purchaseOrderId}`);
             }
         });
 
@@ -169,6 +169,71 @@ class frontendPurchaseOrderStatus {
                 }
             });
         });
+
+        if ($("#captureTransferImage").length) {
+            $("#captureTranferButton").on("click", () => {
+                const orderId = $('meta[name="order-id"]').attr("content");
+                const fileUpload = $("#captureTransferImage").prop("files")[0];
+                if (fileUpload && orderId) {
+                    $("#captureTranferButtonText").text("Sedang Mengunggah...");
+                    $("#captureTranferButton").prop("disabled", true);
+                    setTimeout(() => {
+                        const formData = new FormData();
+                        formData.append("_csrf", $('meta[name="csrf-token"]').attr("content"));
+                        formData.append("order_id", orderId);
+                        formData.append("image", fileUpload);
+                        fetch(`${location.origin}/purchase/do-capture-transfer`, {
+                            method: "POST",
+                            body: formData
+                        })
+                            .then((response) => response.json())
+                            .then((response) => {
+                                if (response.success) {
+                                    $("#captureTranferButtonText").text("Sudah diunggah");
+                                    $("#captureTranferButton").prop("disabled", true);
+                                    var drEvent = $("#captureTransferImage").dropify({
+                                        defaultFile: Topupgim.safeImage(response.data),
+                                        showRemove: false,
+                                        height: 180
+                                    });
+                                    drEvent = drEvent.data("dropify");
+                                    drEvent.resetPreview();
+                                    drEvent.clearElement();
+                                    drEvent.settings.defaultFile = Topupgim.safeImage(response.data);
+                                    drEvent.settings.showRemove = false;
+                                    drEvent.settings.height = 180;
+                                    drEvent.destroy();
+                                    drEvent.init();
+                                    Topupgim.helpers("jq-notify", {
+                                        type: "info",
+                                        message: "Berhasil mengunggah file!"
+                                    });
+                                } else {
+                                    $("#captureTranferButtonText").text("Unggah File");
+                                    $("#captureTranferButton").prop("disabled", false);
+                                    Topupgim.helpers("jq-notify", {
+                                        type: "danger",
+                                        message: response.message
+                                    });
+                                }
+                            })
+                            .catch((_error) => {
+                                $("#captureTranferButtonText").text("Unggah File");
+                                $("#captureTranferButton").prop("disabled", false);
+                                Topupgim.helpers("jq-notify", {
+                                    type: "danger",
+                                    message: "Gagal mengunggah file!"
+                                });
+                            });
+                    }, 800);
+                } else {
+                    Topupgim.helpers("jq-notify", {
+                        type: "danger",
+                        message: "Tidak ada file yang kamu unggah!"
+                    });
+                }
+            });
+        }
     }
 }
 
