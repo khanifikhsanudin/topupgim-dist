@@ -229,10 +229,17 @@ class frontendPurchaseOrderStatus {
                 } else {
                     Topupgim.helpers("jq-notify", {
                         type: "danger",
-                        message: "Tidak ada file yang kamu unggah!"
+                        message: "Mohon pilih file dahulu sebelum mengunggah!"
                     });
                 }
             });
+        }
+
+        const paymentMethod = $('meta[name="payment-method"]').attr("content");
+        if (paymentMethod === "BANK_TRANSFER" && $("#modal-tf-info").length) {
+            setTimeout(() => {
+                $("#modal-tf-info").modal("show");
+            }, 250);
         }
     }
 }
