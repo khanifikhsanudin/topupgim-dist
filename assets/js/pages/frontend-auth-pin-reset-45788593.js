@@ -4,7 +4,6 @@ class frontendAuthPINReset {
     static initValidation() {
         Topupgim.helpers("jq-validation");
         $(".js-validation-auth-pin-reset").validate({
-            ignore: "",
             rules: {
                 signature: {
                     required: true,
