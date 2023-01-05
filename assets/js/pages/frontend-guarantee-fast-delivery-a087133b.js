@@ -1,6 +1,6 @@
 "use strict";
 
-class membersubmissionAdd {
+class fastDeliverySubmission {
     static initValidation() {
         Topupgim.helpers("jq-validation");
         $(".js-validation-guarantee-fast-delivery").validate({
@@ -60,23 +60,7 @@ class membersubmissionAdd {
         if ($(`#submissionMethodType option[value='BANK']`).length) {
             $("#submissionMethodType").val("BANK").trigger("change");
         }
-        const editDataJson = $("#json-edit-data").text();
-        const editData = JSON.parse(editDataJson || {});
-        if (editData) {
-            window.editMode = true;
-            $("input[name=submissionCode]").val(editData.code);
-            if ($(`#submissionMethodType option[value='${editData.method_type}']`).length) {
-                $("#submissionMethodType").val(editData.method_type).trigger("change");
-                $("#submissionMethodType").attr("disabled", "disabled");
-                if ($(`#submissionMethodCode option[value='${editData.method_code}']`).length) {
-                    $("#submissionMethodCode").val(editData.method_code).trigger("change");
-                    $("#submissionMethodCode").attr("disabled", "disabled");
-                }
-            }
-            $("input[name=submissionAccountNumber]").val(editData.account_number);
-            $("#submissionAccountNumber").attr("disabled", "disabled");
-        }
     }
 }
 
-Topupgim.onLoad(membersubmissionAdd.init());
+Topupgim.onLoad(fastDeliverySubmission.init());
