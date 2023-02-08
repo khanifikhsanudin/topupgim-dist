@@ -88,8 +88,8 @@ class managerPurchaseList {
                     render: function (data, type, row, meta) {
                         let actions = `
                             <div class="btn-group">
-                                <button onclick="location.href='${location.origin}/purchase/order-status/${row.order_id}'" type="button" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled" data-bs-toggle="tooltip" title="Lihat rincian">
-                                    <i class="fa fa-eye"></i>
+                                <button onclick="location.href='${location.origin}/purchase/order-status/${row.order_id}'" type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Lihat rincian">
+                                    <i class="far fa-eye"></i>
                                 </button>
                             </div>
                         `;

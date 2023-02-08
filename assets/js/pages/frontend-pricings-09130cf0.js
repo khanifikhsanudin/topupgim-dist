@@ -143,8 +143,8 @@ class resellerPricingList {
                     render: function (data, type, row, meta) {
                         let actions = `
                             <div class="btn-group">
-                                <button onclick="window.location.href='${location.origin}/product/${row.product_alias_name}/${row.product_code}'" type="button" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled" data-bs-toggle="tooltip" title="Beli Sekarang">
-                                    <i class="fa fa-cart-plus"></i>
+                                <button onclick="window.location.href='${location.origin}/product/${row.product_alias_name}/${row.product_code}'" type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Beli Sekarang">
+                                    <i class="far fa-cart-plus"></i>
                                 </button>
                             </div>
                         `;
