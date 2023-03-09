@@ -16,7 +16,13 @@ class frontendProduct {
                     `;
                 }
                 if (value.text) {
-                    reviewTextHtml = `<p class="fs-normal mb-0 mt-2">${value.text}</p>`;
+                    reviewTextHtml = `
+                        <div class="d-flex mt-2">
+                            <div class="px-3 py-1 border rounded rounded-pill bg-body-light">
+                                <p class="fs-normal mb-0">${value.text}</p>
+                            </div>
+                        </div>
+                    `;
                 }
                 reviewScopeHtml = `
                     ${reviewScopeHtml}
@@ -31,7 +37,7 @@ class frontendProduct {
                                     </div>
                                     <p class="text-muted mb-0 fs-xs"> &bull; ${value.time_ago}</p>
                                 </div>
-                                <span class="text-muted fs-sm fw-light">${value.denomination_name}</span>
+                                <span class="fs-sm"><span class="text-muted">Item: </span>${value.denomination_name}</span>
                                 ${reviewTextHtml}
                             </div>
                         </div>
@@ -44,6 +50,7 @@ class frontendProduct {
 
     static loadReviews(page = 1) {
         const productCode = $('meta[name="product-code"]').attr("content");
+        const filter = $('input[name="reviewFilter"]:checked').val();
         if (window.reviewAmount > 0) {
             $("#review-scope-frame-list").css("visibility", "hidden");
             $("#review-scope-list-loading").removeClass("d-none");
@@ -53,7 +60,7 @@ class frontendProduct {
             $("#review-scope-loading").removeClass("d-none");
         }
         window.isReviewLoading = true;
-        fetch(`${location.origin}/review/api-review-list?product_code=${productCode}&page=${page}`)
+        fetch(`${location.origin}/review/api-review-list?product_code=${productCode}&page=${page}&filter=${filter}`)
             .then((res) => res.json())
             .then((response) => {
                 const amount = parseInt(response.paging?.amount ?? 0);
@@ -204,6 +211,10 @@ class frontendProduct {
         });
         window.addEventListener("beforeunload", function (e) {
             window.isLeavingPage = "yes";
+        });
+
+        $('input[type=radio][name="reviewFilter"]').on("change", () => {
+            this.loadReviews();
         });
 
         $("#review-nav-next").on("click", () => {
