@@ -18,7 +18,7 @@ class frontendProduct {
                 if (value.text) {
                     reviewTextHtml = `
                         <div class="d-flex mt-2">
-                            <div class="px-3 py-1 border rounded rounded-pill bg-body-light">
+                            <div class="px-3 py-1 border-bottom bg-body-light" style="border-radius: 22px;">
                                 <p class="fs-normal mb-0">${value.text}</p>
                             </div>
                         </div>
