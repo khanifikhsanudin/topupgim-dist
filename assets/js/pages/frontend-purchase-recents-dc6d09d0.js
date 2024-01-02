@@ -4,23 +4,29 @@ const purchaseHistoryView = (purchaseList) => {
     let purchaseView = "";
     purchaseList = Array.isArray(purchaseList) ? purchaseList : [];
     purchaseList.forEach((item) => {
-        const orderId = item.order_id;
         const priceText = Topupgim.numberToIDRSlim(item.price_idr);
+        const tile = Topupgim.safeImage(item.product_tile_image);
         purchaseView = `
             ${purchaseView}
-            <div class="container-action list-group-item-action rounded d-flex justify-content-between w-100 border-top border-3 py-3 px-2 mb-3" role="button" data-order-id="${orderId}">
-                <div class="d-flex align-items-center">
-                    <img class="img-sq img-round-pop me-3" src="${Topupgim.safeImage(item.product_tile_image)}">
+            <div class="purchase-status block block-rounded" data-order-id="${item.order_id}" style="cursor: pointer;">
+                <div class="block-content p-0">
                     <div class="d-flex flex-column">
-                        <p class="fw-semibold text-truncate mb-0">${item.product_title} - ${item.denomination_name}</p>
-                        <span class="fs-sm mb-0">${item.order_id}</span>
-                        <span class="fs-sm fw-semibold text-currency mb-0">${priceText}</span>
+                        <div class="d-flex align-items-center p-3 p-lg-4">
+                            <img class="img-sq img-round-pop flex-shrink-0 me-3 me-lg-4" src="${tile}">
+                            <div class="flex-grow-1 d-flex flex-column">
+                                <span class="fw-semibold">${item.product_title}</span>
+                                <span class="fs-sm">${item.denomination_name}</span>
+                            </div>
+                            <div class="d-flex flex-column align-items-end">
+                                <span class="fs-xs border fw-light rounded-pill px-2 mb-2">${item.status_text}</span>
+                                <span class="text-currency fw-semibold">${priceText}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between fs-xs text-secondary p-2 bg-body-light d-flex align-items-center rounded-bottom">
+                            <span class="fs-sm mb-0">#${item.order_id}</span>    
+                            <span class="fs-sm mb-0">${item.date_text}</span>
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <button type="button" class="purchase-status btn btn-sm btn-outline-secondary px-3 d-md-block d-none" data-order-id="${orderId}"s>
-                        Detail
-                    </button>
                 </div>
             </div>
         `;
@@ -29,7 +35,7 @@ const purchaseHistoryView = (purchaseList) => {
         purchaseView = `
             ${purchaseView}
             <div class="d-flex justify-content-center w-100">
-                <u class="text-primary"><a href="${location.origin}/member/purchases" class="fw-semibold text-primary">Lihat selengkapnya <i class="fa fa-right ms-1"></i> </a></u>
+                <u class="text-primary"><a href="${location.origin}/member/purchases" class="fw-semibold text-primary">Lihat selengkapnya <i class="fa fa-right ms-1"></i></a></u>
             </div>
         `;
     }
@@ -44,9 +50,7 @@ class frontendPurchaseRecents {
                 const statusLink = `${location.origin}/purchase/order-status/${orderId}`;
                 location.href = statusLink;
             })
-            .on("click", ".purchase-status", function (e) {
-                if (e.target !== e.currentTarget) return;
-                e.stopPropagation();
+            .on("click", ".purchase-status", function () {
                 const orderId = $(this).data("order-id");
                 const statusLink = `${location.origin}/purchase/order-status/${orderId}`;
                 location.href = statusLink;
