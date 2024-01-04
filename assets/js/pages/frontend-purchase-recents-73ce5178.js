@@ -18,7 +18,7 @@ const purchaseHistoryView = (purchaseList) => {
                                 <span class="fs-sm">${item.denomination_name}</span>
                             </div>
                             <div class="d-flex flex-column align-items-end">
-                                <span class="fs-xs border fw-light rounded-pill px-2 mb-2">${item.status_text}</span>
+                                <span class="badge fs-xs rounded-pill mb-2 ${item.status_class}">${item.status_text}</span>
                                 <span class="text-currency fw-semibold">${priceText}</span>
                             </div>
                         </div>
