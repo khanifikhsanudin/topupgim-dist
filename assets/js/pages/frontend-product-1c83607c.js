@@ -166,12 +166,20 @@ class frontendProduct {
             if ($("#parent-content-ranking-mobile").find("#content-ranking").length === 0) {
                 $("#content-ranking").prependTo($("#parent-content-ranking-mobile"));
             }
+            if ($("#parent-content-article-mobile").find("#content-article").length === 0) {
+                $("#content-article").prependTo($("#parent-content-article-mobile"));
+            }
+            if ($("#parent-content-faq-mobile").find("#content-faq").length === 0) {
+                $("#content-faq").prependTo($("#parent-content-faq-mobile"));
+            }
             if (isReviewShown) {
                 $("#parent-content-review-mobile").removeClass("d-none");
             }
             if (isRankingShown) {
                 $("#parent-content-ranking-mobile").removeClass("d-none");
             }
+            $("#parent-content-article-mobile").removeClass("d-none");
+            $("#parent-content-faq-mobile").removeClass("d-none");
         } else {
             if ($("#parent-content-review").find("#content-review").length === 0) {
                 $("#content-review").prependTo($("#parent-content-review"));
@@ -179,12 +187,20 @@ class frontendProduct {
             if ($("#parent-content-ranking").find("#content-ranking").length === 0) {
                 $("#content-ranking").prependTo($("#parent-content-ranking"));
             }
+            if ($("#parent-content-article").find("#content-article").length === 0) {
+                $("#content-article").prependTo($("#parent-content-article"));
+            }
+            if ($("#parent-content-faq").find("#content-faq").length === 0) {
+                $("#content-faq").prependTo($("#parent-content-faq"));
+            }
             if (isReviewShown) {
                 $("#parent-content-review").removeClass("d-none");
             }
             if (isRankingShown) {
                 $("#parent-content-ranking").removeClass("d-none");
             }
+            $("#parent-content-article").removeClass("d-none");
+            $("#parent-content-faq").removeClass("d-none");
         }
     }
 
