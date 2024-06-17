@@ -257,18 +257,29 @@ class frontendProduct {
 
         //rich text pop-up
         if ($("#modal-product-rich-text").length) {
-            const productCode = $('meta[name="product-code"]').attr("content");
-            const delayed = $("#modal-product-rich-text").data("delayed-time");
-            const updatedAt = $("#modal-product-rich-text").data("updated-at") || "";
-            const lastUpdatedAt = localStorage.getItem(`${productCode}_rich_text__updated_at`) || "";
-            if (`${lastUpdatedAt}` !== `${updatedAt}`) {
+            const isAndroid = /(android)/i.test(navigator.userAgent);
+            const state = $("#modal-product-rich-text").data("state");
+            const asRedirect = $("#modal-product-rich-text").data("as-redirect") === "yes";
+            if (!asRedirect) {
+                const productCode = $('meta[name="product-code"]').attr("content");
+                const delayed = $("#modal-product-rich-text").data("delayed-time");
+                const updatedAt = $("#modal-product-rich-text").data("updated-at") || "";
+                const lastUpdatedAt = localStorage.getItem(`${productCode}_rich_text__updated_at`) || "";
+                if (`${lastUpdatedAt}` !== `${updatedAt}`) {
+                    setTimeout(() => {
+                        $("#modal-product-rich-text").modal("show");
+                    }, parseInt(delayed) || 1000);
+                }
+                $("#rich-text-acknowledge").on("click", () => {
+                    localStorage.setItem(`${productCode}_rich_text__updated_at`, updatedAt);
+                });
+            } else {
+                if (state === "redirect_android" && !isAndroid) return;
                 setTimeout(() => {
+                    $("#modal-product-rich-text").modal({ backdrop: "static", keyboard: false });
                     $("#modal-product-rich-text").modal("show");
-                }, parseInt(delayed) || 1000);
+                }, 200);
             }
-            $("#rich-text-acknowledge").on("click", () => {
-                localStorage.setItem(`${productCode}_rich_text__updated_at`, updatedAt);
-            });
         }
     }
 }
