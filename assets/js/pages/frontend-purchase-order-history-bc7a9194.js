@@ -77,7 +77,7 @@ const loadingView = `
 const emptyHistoryView = `
     <div class="text-center mt-4 mb-5 py-5">
         <h4 class="mb-2">Belum ada transaksi</h4>
-        <p>Yuk, mulai top up dan penuhi berbagai kebutuhan<br />gamingmu di Topupgim</p>
+        <p>Yuk, mulai top up dan penuhi berbagai kebutuhan<br />gamingmu di TopUpGim</p>
         <a class="btn btn-primary px-6" href="${location.origin}">
             Mulai Top Up
         </a>
