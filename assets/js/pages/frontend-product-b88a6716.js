@@ -9,6 +9,8 @@ class frontendProduct {
                 const memberProfileImage = Topupgim.safeAvatar(value.member_profile_image);
                 let rateStarHtml = "";
                 let reviewTextHtml = "";
+                let channelHtml = "";
+                let amountHtml = "";
                 for (let i = 0; i < score; i++) {
                     rateStarHtml = `
                         ${rateStarHtml}
@@ -16,31 +18,40 @@ class frontendProduct {
                     `;
                 }
                 if (value.text) {
-                    reviewTextHtml = `
-                        <div class="d-flex mt-2">
-                            <div class="px-3 py-1 border-bottom bg-body-light" style="border-radius: 22px;">
-                                <p class="fs-normal mb-0">${value.text}</p>
-                            </div>
-                        </div>
+                    reviewTextHtml = `<p class="fs-normal mt-2 pt-2 border-top mb-0">${value.text}</p>`;
+                }
+                if (value.channel_name) {
+                    channelHtml = `
+                        <span class="fs-sm">
+                            <span class="text-muted">Payment Method: </span>${value.channel_name}
+                        </span>
+                    `;
+                }
+                if (value.total_amount) {
+                    const totalText = Topupgim.numberToIDR(value.total_amount, "slim");
+                    amountHtml = `
+                        <span class="fs-sm">
+                            <span class="text-muted">Total: </span>${totalText}
+                        </span>
                     `;
                 }
                 reviewScopeHtml = `
                     ${reviewScopeHtml}
-                    <div class="d-flex flex-column mb-3">
-                        <div class="d-flex">
-                            <img class="img-avatar border" style="width: 35px; height: 35px" src="${memberProfileImage}">
-                            <div class="d-flex flex-column ms-3">
-                                <span class="fs-sm fw-semibold m-0">${value.member_name}</span>
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-xs align-self-center me-1">
-                                        ${rateStarHtml}
-                                    </div>
+                    <div class="d-flex flex-column rounded rounded-3 mb-3 px-3 py-2 border-bottom border-3 bg-body-light">
+                        <div class="d-flex align-items-center">
+                            <img class="img-avatar border me-2" style="width: 35px; height: 35px" src="${memberProfileImage}">
+                            <div class="d-flex flex-column">
+                                <span class="fs-sm fw-semibold">${value.member_name}</span>
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="fs-xs align-self-center me-1">${rateStarHtml}</div>
                                     <p class="text-muted mb-0 fs-xs"> &bull; ${value.time_ago}</p>
                                 </div>
-                                <span class="fs-sm"><span class="text-muted">Item: </span>${value.denomination_name}</span>
-                                ${reviewTextHtml}
                             </div>
                         </div>
+                        <span class="fs-sm"><span class="text-muted">Item: </span>${value.denomination_name}</span>
+                        ${channelHtml}
+                        ${amountHtml}
+                        ${reviewTextHtml}
                     </div>
                 `;
             });
