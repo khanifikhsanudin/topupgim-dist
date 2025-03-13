@@ -157,7 +157,7 @@ class frontendProduct {
                     required: true
                 },
                 memberWhatsAppNo: {
-                    required: true,
+                    required: $('meta[name="require-contact"]').attr("content") === "true",
                     minlength: 8,
                     digits: true
                 }
