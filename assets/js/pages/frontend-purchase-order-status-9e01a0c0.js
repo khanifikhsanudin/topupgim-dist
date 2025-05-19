@@ -1,5 +1,15 @@
 "use strict";
 
+let toast = Swal.mixin({
+    buttonsStyling: false,
+    customClass: {
+        confirmButton: "btn btn-success m-1",
+        cancelButton: "btn btn-danger m-1",
+        input: "form-control"
+    },
+    cancelButtonText: "Nevermind"
+});
+
 function showDialogCancelOrder(orderId, signatureEnc) {
     const csrfToken = $('meta[name="csrf-token"]').attr("content");
     toast
