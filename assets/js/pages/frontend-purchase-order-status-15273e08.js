@@ -1,5 +1,63 @@
 "use strict";
 
+function showDialogCancelOrder(orderId, signatureEnc) {
+    const csrfToken = $('meta[name="csrf-token"]').attr("content");
+    toast
+        .fire({
+            title: "Apakah Anda yakin?",
+            text: "Pesanan akan dibatalkan!",
+            icon: "warning",
+            showCancelButton: true,
+            customClass: {
+                confirmButton: "btn btn-danger m-1",
+                cancelButton: "btn btn-secondary m-1"
+            },
+            confirmButtonText: "Ya, batalkan!",
+            html: false,
+            preConfirm: (e) => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve();
+                    }, 50);
+                });
+            }
+        })
+        .then((result) => {
+            if (result.value) {
+                var newForm = $("<form>", {
+                    method: "POST",
+                    action: `${location.origin}/purchase/do-cancel-order`,
+                    target: "_top",
+                    enctype: "multipart/form-data",
+                    novalidate: "novalidate"
+                });
+                newForm.append(
+                    $("<input>", {
+                        name: "_csrf",
+                        value: csrfToken,
+                        type: "hidden"
+                    })
+                );
+                newForm.append(
+                    $("<input>", {
+                        name: "purchaseOrderId",
+                        value: orderId,
+                        type: "hidden"
+                    })
+                );
+                newForm.append(
+                    $("<input>", {
+                        name: "purchaseSignatureEnc",
+                        value: signatureEnc,
+                        type: "hidden"
+                    })
+                );
+                $(document.body).append(newForm);
+                newForm.trigger("submit").remove();
+            }
+        });
+}
+
 class frontendPurchaseOrderStatus {
     static initIO() {
         const purchaseStatus = $('meta[name="purchase-status"]').attr("content");
@@ -146,6 +204,14 @@ class frontendPurchaseOrderStatus {
 
         $("#purchaseRefresh")?.on("click", () => {
             window.location.reload(true);
+        });
+
+        $("#cancelOrder").on("click", function (e) {
+            if (e.target !== e.currentTarget) return;
+            e.stopPropagation();
+            const orderId = $('meta[name="order-id"]').attr("content");
+            const signatureEnc = $('meta[name="sign-enc"]').attr("content");
+            showDialogCancelOrder(orderId, signatureEnc);
         });
 
         $.each($(".btn-copy"), function (_index, item) {
