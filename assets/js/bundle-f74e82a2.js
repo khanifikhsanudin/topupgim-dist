@@ -7,15 +7,10 @@
                         </div>
                     `;t<r&&(o=Y(r),$("#productChannelName_"+e.payment_method_code).attr("data-crossed-out",r),a=`
                             <div class="d-flex flex-column align-items-end ms-2 me-2 me-md-4">
-                                <span class="text-currency d-block fs-sm fw-semibold text-end">
-                                    ${i}
-                                </span>
+                                <div class="d-flex align-items-center text-end">
+                                    <span class="text-currency fs-sm fw-semibold">${i}</span><del class="ms-1"><span class="fs-xs fw-light d-block">${o}</span></del>
+                                </div>
                                 <div class="d-flex flex-column align-items-end justify-content-center">
-                                    <del>
-                                        <span class="fs-xs fw-light d-block">
-                                            ${o}
-                                        </span>
-                                    </del>
                                     ${n}
                                 </div>
                             </div>
