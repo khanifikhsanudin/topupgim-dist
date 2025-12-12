@@ -39,7 +39,6 @@ class frontendProduct {
                     ${reviewScopeHtml}
                     <div class="d-flex flex-column rounded rounded-3 mb-3 px-3 py-2 border-bottom border-3 bg-body-light">
                         <div class="d-flex align-items-center">
-                            <img class="img-avatar border me-2" style="width: 35px; height: 35px" src="${memberProfileImage}">
                             <div class="d-flex flex-column">
                                 <span class="fs-sm fw-semibold">${value.member_name}</span>
                                 <div class="d-flex align-items-center mb-2">
