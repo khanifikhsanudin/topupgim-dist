@@ -317,6 +317,21 @@ class frontendPurchaseOrderStatus {
                 $("#modal-tf-info").modal("show");
             }, 250);
         }
+
+        const isFromOrder = $("#isFromOrder").val() === "true";
+        if (isFromOrder) {
+            const orderId = $('meta[name="order-id"]').attr("content");
+            const oldHistoriesRaw = JSON.parse(localStorage.getItem("purchase-histories") || "[]");
+            const oldHistories = Array.isArray(oldHistoriesRaw) ? oldHistoriesRaw : [];
+            if (!oldHistories.some((v) => v.order_id === orderId)) {
+                const data = JSON.parse($("#pushData").val() || "null");
+                if (data && typeof data === "object" && data.order_id === orderId) {
+                    const updatedHistories = [data, ...oldHistories].slice(0, 15);
+                    console.log("updatedHistories", updatedHistories);
+                    localStorage.setItem("purchase-histories", JSON.stringify(updatedHistories));
+                }
+            }
+        }
     }
 }
 

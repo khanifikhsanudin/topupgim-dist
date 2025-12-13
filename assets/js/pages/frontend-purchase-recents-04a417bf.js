@@ -44,6 +44,8 @@ const purchaseHistoryView = (purchaseList) => {
 
 class frontendPurchaseRecents {
     static async init() {
+        const query = Topupgim.getQueryParam("query");
+
         $(document)
             .on("click", ".container-action", function () {
                 const orderId = $(this).data("order-id");
@@ -103,6 +105,11 @@ class frontendPurchaseRecents {
                     });
             }, 500);
         });
+
+        if (query && String(query).length >= 8) {
+            $("#userPhoneNumber").val(query);
+            $("#userSubmit").trigger("click");
+        }
     }
 }
 
