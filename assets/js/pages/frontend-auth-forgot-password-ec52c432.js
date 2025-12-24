@@ -12,7 +12,6 @@ class frontendAuthForgotPassword {
                 }
             },
             submitHandler: function (form) {
-                $("#main-block").addClass("block-mode-loading");
                 form.submit();
             }
         });

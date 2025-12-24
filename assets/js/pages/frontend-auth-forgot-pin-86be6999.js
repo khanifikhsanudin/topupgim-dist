@@ -11,7 +11,6 @@ class frontendAuthForgotPIN {
                 }
             },
             submitHandler: function (form) {
-                $("#main-block").addClass("block-mode-loading");
                 form.submit();
             }
         });
