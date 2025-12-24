@@ -21,7 +21,6 @@ class frontendAuthForgotPassword {
     static async init() {
         this.initValidation();
         Topupgim.helpers("input-text-phone");
-        Topupgim.helpers("fresh-page");
 
         const seeds = $("#actionSeeds").val() || "";
         const socket = io();
