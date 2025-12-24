@@ -54,15 +54,15 @@ class frontendAuthVerifyRegister {
         });
 
         const seeds = $("#actionSeeds").val() || "";
-        const socket = io();
-        socket.on(`event-regr-${seeds}`, (redirectLink) => {
-            if (redirectLink) {
+        if (seeds) {
+            const socket = io();
+            socket.on(`event-regr-${seeds}`, (redirectLink) => {
                 $("#actionBtn").on("click", () => {
                     location.href = redirectLink;
                 });
                 $("#actionContainer").removeClass("d-none");
-            }
-        });
+            });
+        }
     }
 }
 

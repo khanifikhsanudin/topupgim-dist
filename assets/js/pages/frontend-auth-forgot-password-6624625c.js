@@ -23,15 +23,15 @@ class frontendAuthForgotPassword {
         Topupgim.helpers("input-text-phone");
 
         const seeds = $("#actionSeeds").val() || "";
-        const socket = io();
-        socket.on(`event-passr-${seeds}`, (redirectLink) => {
-            if (redirectLink) {
+        if (seeds) {
+            const socket = io();
+            socket.on(`event-passr-${seeds}`, (redirectLink) => {
                 $("#actionBtn").on("click", () => {
                     location.href = redirectLink;
                 });
                 $("#actionContainer").removeClass("d-none");
-            }
-        });
+            });
+        }
     }
 }
 

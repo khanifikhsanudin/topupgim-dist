@@ -22,15 +22,15 @@ class frontendAuthForgotPIN {
         Topupgim.helpers("input-text-phone");
 
         const seeds = $("#actionSeeds").val() || "";
-        const socket = io();
-        socket.on(`event-pinr-${seeds}`, (redirectLink) => {
-            if (redirectLink) {
+        if (seeds) {
+            const socket = io();
+            socket.on(`event-pinr-${seeds}`, (redirectLink) => {
                 $("#actionBtn").on("click", () => {
                     location.href = redirectLink;
                 });
                 $("#actionContainer").removeClass("d-none");
-            }
-        });
+            });
+        }
     }
 }
 
