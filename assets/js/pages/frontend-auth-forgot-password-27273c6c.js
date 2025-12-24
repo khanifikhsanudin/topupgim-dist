@@ -22,6 +22,17 @@ class frontendAuthForgotPassword {
         this.initValidation();
         Topupgim.helpers("input-text-phone");
         Topupgim.helpers("fresh-page");
+
+        const seeds = $("#actionSeeds").val() || "";
+        const socket = io();
+        socket.on(`event-passr-${seeds}`, (redirectLink) => {
+            if (redirectLink) {
+                $("#actionBtn").on("click", () => {
+                    location.href = redirectLink;
+                });
+                $("#actionContainer").removeClass("d-none");
+            }
+        });
     }
 }
 

@@ -52,6 +52,17 @@ class frontendAuthVerifyRegister {
         $("#verifyConfirm").on("click", () => {
             doVerifyRegister();
         });
+
+        const seeds = $("#actionSeeds").val() || "";
+        const socket = io();
+        socket.on(`event-regr-${seeds}`, (redirectLink) => {
+            if (redirectLink) {
+                $("#actionBtn").on("click", () => {
+                    location.href = redirectLink;
+                });
+                $("#actionContainer").removeClass("d-none");
+            }
+        });
     }
 }
 
