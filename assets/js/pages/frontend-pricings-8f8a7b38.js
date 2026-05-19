@@ -92,6 +92,17 @@ class resellerPricingList {
                     }
                 },
                 {
+                    data: "denomination_sku_id",
+                    render: function (data, type, row, meta) {
+                        let html = `
+                            <div style="min-width:200px;">
+                                <p class="fs-sm mb-0 text-truncate">${row.denomination_sku_id}</p>
+                            </div>
+                        `;
+                        return html;
+                    }
+                },
+                {
                     data: "price_idr",
                     render: function (data, type, row, meta) {
                         const price = Topupgim.numberToIDR(row.price_idr);
@@ -154,7 +165,7 @@ class resellerPricingList {
             ],
             columnDefs: [
                 {
-                    targets: [0, 4],
+                    targets: [0, 2, 5],
                     orderable: false,
                     searchable: false
                 },
