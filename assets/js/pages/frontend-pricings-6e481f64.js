@@ -70,7 +70,11 @@ class resellerPricingList {
             serverSide: true,
             ajax: ajaxUrl,
             order: [[1, "asc"]],
-            pageLength: 10,
+            lengthMenu: [
+                [10, 25, 50],
+                [10, 25, 50]
+            ],
+            pageLength: 50,
             columns: [
                 {
                     render: function (data, type, row, meta) {
@@ -78,21 +82,19 @@ class resellerPricingList {
                     }
                 },
                 {
-                    data: "denomination_name",
                     render: function (data, type, row, meta) {
                         const productTileImage = Topupgim.safeImage(row.product_tile_image);
                         let html = `
                             <div style="min-width:200px;">
                                 <img class="img-sm img-round-pop me-3 float-start" src="${productTileImage}">
                                 <p class="fs-sm mb-0 text-truncate">${row.product_title}</p>
-                                <p class="fs-sm text-primary mb-0 text-truncate">${row.denomination_name}</p>
+                                <p class="fs-sm fw-semibold mb-0 text-truncate">${row.denomination_name}</p>
                             </div>
                         `;
                         return html;
                     }
                 },
                 {
-                    data: "denomination_sku_id",
                     render: function (data, type, row, meta) {
                         let html = `
                             <div style="min-width:200px;">
@@ -103,10 +105,9 @@ class resellerPricingList {
                     }
                 },
                 {
-                    data: "price_idr",
                     render: function (data, type, row, meta) {
-                        const price = Topupgim.numberToIDR(row.price_idr);
-                        const crossedOut = Topupgim.numberToIDR(row.price_idr_crossed_out);
+                        const price = Topupgim.numberToIDRSlim(row.price_idr);
+                        const crossedOut = Topupgim.numberToIDRSlim(row.price_idr_crossed_out);
                         let html = "";
                         if (row.price_idr_crossed_out) {
                             html = `
@@ -124,54 +125,13 @@ class resellerPricingList {
                         }
                         return html;
                     }
-                },
-                {
-                    data: "price_idr_reseller",
-                    render: function (data, type, row, meta) {
-                        const margin = parseInt(row.price_idr) - parseInt(row.price_idr_reseller);
-                        const priceMargin = Topupgim.numberToIDR(margin);
-                        const priceReseller = Topupgim.numberToIDR(row.price_idr_reseller);
-                        let html = "";
-                        if (margin > 0) {
-                            html = `
-                            <div style="min-width:120px;">
-                                <p class="fs-sm fw-semibold mb-0">${priceReseller}</p>
-                                <p class="text-success fs-sm mb-0 ">-${priceMargin}</p>
-                            </div>
-                        `;
-                        } else {
-                            html = `
-                            <div style="min-width:120px;">
-                                <p class="fs-sm fw-semibold mb-0">${priceReseller}</p>
-                            </div>
-                        `;
-                        }
-
-                        return html;
-                    }
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        let actions = `
-                            <div class="btn-group">
-                                <button onclick="window.location.href='${location.origin}/product/${row.product_alias_name}/${row.product_code}'" type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Beli Sekarang">
-                                    <i class="far fa-cart-plus"></i>
-                                </button>
-                            </div>
-                        `;
-                        return actions;
-                    }
                 }
             ],
             columnDefs: [
                 {
-                    targets: [0, 2, 5],
+                    targets: [0, 2, 3],
                     orderable: false,
                     searchable: false
-                },
-                {
-                    targets: [-1],
-                    className: "dt-center"
                 }
             ]
         });
