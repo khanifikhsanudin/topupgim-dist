@@ -1,6 +1,7 @@
 "use strict";
 
 let selectedProductCode = null;
+let isSpecialState = false;
 
 function loadPricingData() {
     $("#main-form").removeClass("animated fadeIn");
@@ -25,33 +26,55 @@ function getProductDetailByCode(code) {
     return product;
 }
 
-function refreshSelectedProduct() {
+function refreshSelectedProduct(isSpecial = false) {
     const code = selectedProductCode;
     let product = getProductDetailByCode(code);
+    Topupgim.hidden("#selectedProductBody");
+    Topupgim.visible("#selectedProductEmpty");
+    $("#listProduct")?.find("a")?.removeClass("active");
+    Topupgim.hidden("#selectedSpecialBody");
+    Topupgim.visible("#selectedSpecialEmpty");
+    $("#listSpecial")?.find("a")?.removeClass("active");
     if (code && typeof product === "object") {
-        $("#selectedProductTileImage").attr("src", Topupgim.safeImage(product["tile_image"]));
-        $("#selectedProductTitle").text(product["title"]);
-        $("#selectedProductType").text(Topupgim.getProductTypeById(product["type"]));
-        Topupgim.gone("#selectedProductEmpty");
-        Topupgim.visible("#selectedProductBody");
-        $("#listProduct")?.find("a")?.removeClass("active");
-        $(`#itemSelectorProduct${code}`)?.addClass("active");
-        return code;
-    } else {
-        Topupgim.hidden("#selectedProductBody");
-        Topupgim.visible("#selectedProductEmpty");
-        $("#listProduct")?.find("a")?.removeClass("active");
-        return null;
+        if (isSpecial) {
+            $("#selectedSpecialTileImage").attr("src", Topupgim.safeImage(product["tile_image"]));
+            $("#selectedSpecialTitle").text(product["title"]);
+            $("#selectedSpecialType").text(Topupgim.getProductTypeById(product["type"]));
+            Topupgim.gone("#selectedSpecialEmpty");
+            Topupgim.visible("#selectedSpecialBody");
+            $("#listSpecial")?.find("a")?.removeClass("active");
+            $(`#itemSelectorSpecial${code}`)?.addClass("active");
+            return code;
+        } else {
+            $("#selectedProductTileImage").attr("src", Topupgim.safeImage(product["tile_image"]));
+            $("#selectedProductTitle").text(product["title"]);
+            $("#selectedProductType").text(Topupgim.getProductTypeById(product["type"]));
+            Topupgim.gone("#selectedProductEmpty");
+            Topupgim.visible("#selectedProductBody");
+            $("#listProduct")?.find("a")?.removeClass("active");
+            $(`#itemSelectorProduct${code}`)?.addClass("active");
+            return code;
+        }
     }
+    return null;
 }
 
 function confirmSelectedProduct(code) {
-    if (code !== selectedProductCode) {
-        selectedProductCode = code;
-        refreshSelectedProduct();
-        loadPricingData();
-    }
+    isSpecialState = false;
+    selectedProductCode = code;
+    refreshSelectedProduct();
+    loadPricingData();
     $("#modal-product-filter")?.modal("hide");
+    $("#modal-special-filter")?.modal("hide");
+}
+
+function confirmSelectedSpecial(code) {
+    isSpecialState = true;
+    selectedProductCode = code;
+    refreshSelectedProduct(true);
+    loadPricingData();
+    $("#modal-product-filter")?.modal("hide");
+    $("#modal-special-filter")?.modal("hide");
 }
 
 class resellerPricingList {
@@ -138,12 +161,25 @@ class resellerPricingList {
         });
 
         $("#modal-product-filter").on("shown.bs.modal", function (_event) {
-            const code = refreshSelectedProduct();
-            const position = $(`#itemSelectorProduct${code}`)?.offset()?.top ?? 0;
-            if (position > $("#containerProduct").innerHeight()) {
-                $("#containerProduct").animate({ scrollTop: position - 150 }, 0);
+            if (!isSpecialState) {
+                const code = refreshSelectedProduct();
+                const position = $(`#itemSelectorProduct${code}`)?.offset()?.top ?? 0;
+                if (position > $("#containerProduct").innerHeight()) {
+                    $("#containerProduct").animate({ scrollTop: position - 150 }, 0);
+                }
+                $("#containerProduct").css("visibility", "visible");
             }
-            $("#containerProduct").css("visibility", "visible");
+        });
+
+        $("#modal-special-filter").on("shown.bs.modal", function (_event) {
+            if (isSpecialState) {
+                const code = refreshSelectedProduct(true);
+                const position = $(`#itemSelectorSpecial${code}`)?.offset()?.top ?? 0;
+                if (position > $("#containerSpecial").innerHeight()) {
+                    $("#containerSpecial").animate({ scrollTop: position - 150 }, 0);
+                }
+                $("#containerSpecial").css("visibility", "visible");
+            }
         });
 
         $("#selectedProduct").on("click", () => {
@@ -154,6 +190,16 @@ class resellerPricingList {
 
         $("#selectedEmptyProduct").on("click", () => {
             confirmSelectedProduct(null);
+        });
+
+        $("#selectedSpecial").on("click", () => {
+            if (!$("#modal-special-filter").is(":visible")) {
+                $("#modal-special-filter").modal("show");
+            }
+        });
+
+        $("#selectedEmptySpecial").on("click", () => {
+            confirmSelectedSpecial(null);
         });
     }
 }
