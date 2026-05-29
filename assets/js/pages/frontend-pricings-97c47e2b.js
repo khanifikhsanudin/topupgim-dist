@@ -69,7 +69,7 @@ class resellerPricingList {
             processing: true,
             serverSide: true,
             ajax: ajaxUrl,
-            order: [[1, "asc"]],
+            order: [[3, "asc"]],
             lengthMenu: [
                 [10, 25, 50],
                 [10, 25, 50]
@@ -105,6 +105,7 @@ class resellerPricingList {
                     }
                 },
                 {
+                    data: "price_idr",
                     render: function (data, type, row, meta) {
                         const price = Topupgim.numberToIDRSlim(row.price_idr);
                         const crossedOut = Topupgim.numberToIDRSlim(row.price_idr_crossed_out);
@@ -129,7 +130,7 @@ class resellerPricingList {
             ],
             columnDefs: [
                 {
-                    targets: [0, 2, 3],
+                    targets: [0, 2],
                     orderable: false,
                     searchable: false
                 }
