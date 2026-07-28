@@ -14,15 +14,26 @@ function loadPricingData() {
 
 function getProductDetailByCode(code) {
     let product = null;
-    let mappedProductsJson = $("#hiddenMappedProducts").val();
-    if (mappedProductsJson) {
-        let mappedProducts = JSON.parse(mappedProductsJson);
-        if (Array.isArray(mappedProducts)) {
-            product = mappedProducts.filter((value) => {
-                return value?.code === code;
-            })?.[0];
+    try {
+        let mappedProductsJson = $("#hiddenMappedProducts").val();
+        let specialProductsJson = $("#hiddenSpecialProducts").val();
+        if (mappedProductsJson) {
+            let mappedProducts = JSON.parse(mappedProductsJson);
+            if (Array.isArray(mappedProducts)) {
+                product = mappedProducts.filter((value) => {
+                    return value?.code === code;
+                })?.[0];
+            }
         }
-    }
+        if (!product && specialProductsJson) {
+            let specialProducts = JSON.parse(specialProductsJson);
+            if (Array.isArray(specialProducts)) {
+                product = specialProducts.filter((value) => {
+                    return value?.code === code;
+                })?.[0];
+            }
+        }
+    } catch (error) {}
     return product;
 }
 
